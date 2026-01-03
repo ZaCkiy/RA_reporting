@@ -1,18 +1,18 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Room Attendant Log</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-</head>
 <body>
 
 <div id="loginPage" class="page">
   <h2>Login Room Attendant</h2>
   <input type="text" id="userName" placeholder="Masukkan Nama atau ID">
   <button onclick="login()">Masuk</button>
+</div>
+
+<div id="appHeader" class="header hidden">
+  <button class="nav-btn" onclick="goBack()">←</button>
+
+  <div class="nav-right">
+    <button class="nav-btn" onclick="goHome()">🏠</button>
+    <button class="nav-btn" onclick="logout()">👤</button>
+  </div>
 </div>
 
 <div id="mainPage" class="page hidden">
@@ -45,9 +45,7 @@
 </div>
 
 <div id="detailPage" class="page hidden"></div>
-
 <div id="summaryPage" class="page hidden"></div>
 
 <script src="app.js"></script>
 </body>
-</html>
