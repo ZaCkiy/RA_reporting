@@ -1,33 +1,33 @@
-<body>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RA Personal Log</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark">
 
 <div id="loginPage" class="page">
   <h2>Login Room Attendant</h2>
-  <input type="text" id="userName" placeholder="Masukkan Nama atau ID">
+  <input type="text" id="username" placeholder="Nama atau ID">
   <button onclick="login()">Masuk</button>
-</div>
-
-<div id="appHeader" class="header hidden">
-  <button class="nav-btn" onclick="goBack()">←</button>
-
-  <div class="nav-right">
-    <button class="nav-btn" onclick="goHome()">🏠</button>
-    <button class="nav-btn" onclick="logout()">👤</button>
-  </div>
 </div>
 
 <div id="mainPage" class="page hidden">
   <header>
-    <h2>Room Attendant Log</h2>
-    <div class="stats">
-      <div>Kredit. <span id="totalKredit">0</span></div>
-      <div>Progres. <span id="roomProgress">0</span></div>
-      <div>Selesai. <span id="roomDone">0</span></div>
+    <div>
+      <span>💼 Kredit: <b id="totalCredit">0</b></span><br>
+      <span>🕒 Progres: <b id="progressRoom">0</b></span><br>
+      <span>✅ Selesai: <b id="doneRoom">0</b></span>
     </div>
+    <button onclick="logout()">👤</button>
   </header>
 
   <section class="input-room">
     <input type="text" id="roomNumber" placeholder="Nomor Kamar">
-    <select id="statusAwal">
+    <select id="roomStatus1">
       <option value="">Status Awal</option>
       <option>VD</option>
       <option>OD</option>
@@ -36,12 +36,14 @@
       <option>ED</option>
       <option>VCU</option>
     </select>
-    <button onclick="addRoom()">Tambah Kamar</button>
+    <button onclick="addRoom()">Tambah</button>
   </section>
 
   <ul id="roomList"></ul>
 
-  <button class="summary-btn" onclick="openSummary()">Summary Shift</button>
+  <section class="summary">
+    <button onclick="showSummary()">End Section / Summary</button>
+  </section>
 </div>
 
 <div id="detailPage" class="page hidden"></div>
@@ -49,3 +51,4 @@
 
 <script src="app.js"></script>
 </body>
+</html>
