@@ -75,6 +75,17 @@
             body { background: #fff; color: #000; }
             #summary-page { display: block !important; }
             .summary-table th, .summary-table td { border: 1px solid #000; color: #000; }
+        /* Watermark Style */
+        .watermark {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            font-size: 12px;
+            color: rgba(224, 224, 224, 0.4); /* Transparansi sekitar 60% (alpha 0.4) */
+            z-index: 999; /* Agar selalu di atas elemen lain */
+            pointer-events: none; /* Agar tidak mengganggu klik pada tombol lain */
+            font-weight: 300;
+            letter-spacing: 1px;
         }
     </style>
 </head>
@@ -344,5 +355,6 @@
         function openUserMenu() { document.getElementById('user-menu-modal').classList.remove('hidden'); }
         function printReport() { window.print(); }
     </script>
+    <div class="watermark">MyRA v1.0</div>
 </body>
 </html>
