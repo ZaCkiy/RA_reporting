@@ -389,14 +389,44 @@
         function showSummary() {
             hideAllPages();
             document.getElementById('summary-page').classList.remove('hidden');
+            
+            // Set Header Laporan
             document.getElementById('sum-name').innerText = currentUser;
-            document.getElementById('sum-date').innerText = new Date().toLocaleDateString();
+            document.getElementById('sum-date').innerText = new Date().toLocaleDateString('id-ID');
+            
             const body = document.getElementById('summary-body');
-            body.innerHTML = "";
+            body.innerHTML = ""; // Bersihkan tabel sebelum isi ulang
+
             rooms.forEach(r => {
-                let itemsStr = r.items.map((q, i) => q > 0 ? `${itemsList[i]}(${q})` : '').filter(x => x).join(', ');
-                body.innerHTML += `<tr><td>${r.number}</td><td>${r.timeIn}-${r.timeOut}</td><td>${r.status3||r.status2||r.status1}</td><td>${itemsStr}</td></tr>`;
+                // 1. Ambil Nama Barang (Hanya yang jumlahnya > 0)
+                let itemsStr = r.items.map((q, i) => {
+                    if (q > 0) {
+                        return `${itemsList[i]} (${q})`;
+                    }
+                    return null;
+                }).filter(x => x !== null).join(', ');
+
+                // 2. Gabungkan Status (Status 1 > Status 2 > Status 3)
+                let finalStatus = [r.status1, r.status2, r.status3].filter(s => s && s !== "").join(' > ');
+
+                // 3. Tambahkan Note jika ada
+                let noteText = r.note ? `<br><small><i>Note: ${r.note}</i></small>` : "";
+
+                // 4. Masukkan ke dalam baris tabel
+                body.innerHTML += `
+                    <tr>
+                        <td><b>${r.number}</b></td>
+                        <td>${r.timeIn || '--'} - ${r.timeOut || '--'}</td>
+                        <td>${finalStatus}</td>
+                        <td>${itemsStr || '-'}${noteText}</td>
+                    </tr>`;
             });
+
+            // Update statistik di bawah laporan
+            const sumCredit = document.getElementById('sum-credit');
+            const sumDone = document.getElementById('sum-done');
+            if(sumCredit) sumCredit.innerText = rooms.length;
+            if(sumDone) sumDone.innerText = rooms.filter(r => r.isCompleted).length;
         }
 
         function deleteRoom() {
