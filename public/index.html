@@ -332,11 +332,34 @@
         }
 
         // --- 6. UTILS ---
+      // --- LOGIKA WAKTU (SET & EDIT) ---
         function setTime(type) {
-            let now = new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}).replace('.', ':');
-            if(type === 'in') rooms[currentRoomId].timeIn = now;
-            else rooms[currentRoomId].timeOut = now;
-            save(); openRoomDetail(currentRoomId);
+            let r = rooms[currentRoomId];
+            let key = (type === 'in' ? 'timeIn' : 'timeOut');
+            let currentTime = r[key];
+
+            // Jika jam masih kosong, isi otomatis dengan jam sekarang
+            if (!currentTime || currentTime === "--:--") {
+                let now = new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}).replace('.', ':');
+                r[key] = now;
+                save();
+                openRoomDetail(currentRoomId);
+            } 
+            // Jika jam sudah ada isinya, buka kotak edit (Prompt)
+            else {
+                let newTime = prompt("Edit Time (Format HH:mm):", currentTime);
+                if (newTime !== null) {
+                    // Validasi format jam agar tetap rapi (HH:mm)
+                    const timeRegex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
+                    if (timeRegex.test(newTime)) {
+                        r[key] = newTime;
+                        save();
+                        openRoomDetail(currentRoomId);
+                    } else {
+                        alert("Format salah! Gunakan format 24 jam (Contoh: 14:30)");
+                    }
+                }
+            }
         }
 
         function setupQtyGrid() {
