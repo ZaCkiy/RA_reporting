@@ -362,9 +362,31 @@
         }
 
         function setTime(t) {
-            let time = new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'});
-            if(t==='in') rooms[currentRoomId].timeIn = time; else rooms[currentRoomId].timeOut = time;
-            save(); openRoomDetail(currentRoomId);
+            let r = rooms[currentRoomId];
+            let currentTime = r[t === 'in' ? 'timeIn' : 'timeOut'];
+
+            // Jika waktu masih kosong, isi dengan waktu real-time
+            if (!currentTime || currentTime === "--:--") {
+                let now = new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}).replace('.', ':');
+                if(t === 'in') r.timeIn = now; else r.timeOut = now;
+                save();
+                openRoomDetail(currentRoomId);
+            } 
+            // Jika sudah ada isinya, buka input manual
+            else {
+                let newTime = prompt("Edit Time (HH:mm):", currentTime);
+                if (newTime !== null) {
+                    // Validasi format jam sederhana (HH:mm)
+                    const timeRegex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
+                    if (timeRegex.test(newTime)) {
+                        if(t === 'in') r.timeIn = newTime; else r.timeOut = newTime;
+                        save();
+                        openRoomDetail(currentRoomId);
+                    } else {
+                        alert("Format jam salah! Gunakan HH:mm (Contoh: 08:30)");
+                    }
+                }
+            }
         }
 
         function openQty(i) { currentItemIndex = i; document.getElementById('qty-modal').classList.remove('hidden'); }
